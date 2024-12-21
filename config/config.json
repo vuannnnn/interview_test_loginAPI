@@ -5,6 +5,7 @@
     "database": "interviewDB",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "passportSecret": "passportSecret"
+    "passportSecret": "passportSecret",
+    "use_env_variable": "DATABASE_URL"
   }
 }
