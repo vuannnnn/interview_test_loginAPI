@@ -45,3 +45,6 @@ sequelize
 app.listen(1004, () => {
   console.log("後端伺服器正在聆聽 port 1004...");
 });
+
+// 部署到Vercel
+export default app;
