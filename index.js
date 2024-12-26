@@ -3,7 +3,7 @@ const app = express();
 const { Sequelize } = require("sequelize");
 const dotenv = require("dotenv");
 dotenv.config();
-const config = require("./config/detabas");
+const config = require("./config/config.json");
 const authRoute = require("./routes/auth");
 const cors = require("cors");
 const passport = require("passport");
