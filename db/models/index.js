@@ -26,7 +26,7 @@ const testConnect = async () => {
     await sequelize.authenticate();
     console.log("MySQL 連接成功！");
   } catch (e) {
-    console.error("無法連接到 MySQL:", error);
+    console.error("無法連接到 MySQL:", e);
   }
 };
 
