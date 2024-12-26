@@ -19,12 +19,12 @@ const register = async (req, res) => {
   // 規範驗證
   let { error } = registerValidation(req.body);
   if (error) {
-    return res.status(200).send(sendData(error.details[0].message, "1"));
+    return res.status(400).send(sendData(error.details[0].message, "1"));
   }
 
   // 檢查密碼長度
   if (req.body.password.length < 8 || req.body.password.length > 20) {
-    return res.status(200).send(sendData("密碼長度必須在 8 到 20 之間", "1"));
+    return res.status(400).send(sendData("密碼長度必須在 8 到 20 之間", "1"));
   }
 
   // 確認信箱是否已註冊過
@@ -44,7 +44,7 @@ const register = async (req, res) => {
     return res.send(sendData("註冊成功！", "0", saveUser));
   } catch (e) {
     console.log(e.message);
-    return res.status(200).send(sendData("註冊失敗...", "1"));
+    return res.status(500).send(sendData("註冊失敗...", "1"));
   }
 };
 
@@ -53,14 +53,14 @@ const login = async (req, res) => {
   // 規範驗證
   let { error } = loginValidation(req.body);
   if (error) {
-    return res.status(200).send(sendData(error.details[0].message, "1"));
+    return res.status(400).send(sendData(error.details[0].message, "1"));
   }
 
   // 確認是否註冊過
   const foundUser = await User.findOne({ where: { email: req.body.email } });
   if (!foundUser) {
     return res
-      .status(200)
+      .status(401)
       .send(sendData("無法找到使用者，請先確認信箱是否正確", "1"));
   }
 
@@ -68,7 +68,7 @@ const login = async (req, res) => {
   try {
     const isMatch = await bcrypt.compare(req.body.password, foundUser.password);
     if (!isMatch) {
-      return res.status(200).send(sendData("密碼錯誤，請重新輸入！", "1"));
+      return res.status(401).send(sendData("密碼錯誤，請重新輸入！", "1"));
     }
   } catch (e) {
     console.error("比對密碼時發生錯誤:", e);
