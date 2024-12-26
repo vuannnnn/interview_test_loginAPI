@@ -14,10 +14,15 @@ let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config[env].host,
-    dialect: config[env].dialect,
-  });
+  sequelize = new Sequelize(
+    config.development.database,
+    config.development.username,
+    config.development.password,
+    {
+      host: config.host || "localhost",
+      dialect: config.dialect || "mysql",
+    }
+  );
 }
 
 // 進行連接測試
