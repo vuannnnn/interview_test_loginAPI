@@ -23,14 +23,16 @@ if (config.use_env_variable) {
 }
 
 // 進行連接測試
-sequelize
-  .authenticate()
-  .then(() => {
+const testConnect = async () => {
+  try {
+    await sequelize.authenticate();
     console.log("MySQL 連接成功！");
-  })
-  .catch((error) => {
+  } catch (e) {
     console.error("無法連接到 MySQL:", error);
-  });
+  }
+};
+
+testConnect();
 
 fs.readdirSync(__dirname)
   .filter((file) => {
