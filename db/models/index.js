@@ -7,17 +7,30 @@ const process = require("process");
 const basename = path.basename(__filename);
 const config = require("../config/config.json");
 const db = {};
-
-let sequelize;
 const env = process.env.NODE_ENV || "development";
 
-// 直接使用config.json配置資料庫連線
-sequelize = new Sequelize(
-  config[env].database,
-  config[env].username,
-  config[env].password,
-  config[env] // 其他設定
-);
+// 創建Sequelize實例
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
+
+// 進行連接測試
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("MySQL 連接成功！");
+  })
+  .catch((error) => {
+    console.error("無法連接到 MySQL:", error);
+  });
 
 fs.readdirSync(__dirname)
   .filter((file) => {

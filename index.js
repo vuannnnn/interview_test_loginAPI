@@ -22,26 +22,6 @@ app.get("/test", (req, res) => {
 // 從 config.json 讀取資料庫設定
 const dbConfig = config.development;
 
-// 創建 Sequelize 實例並連接 MySQL 資料庫
-const sequelize = new Sequelize(
-  dbConfig.database,
-  dbConfig.username,
-  dbConfig.password,
-  {
-    host: dbConfig.host,
-    dialect: dbConfig.dialect,
-  }
-);
-
-// 進行連接測試
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("MySQL 連接成功！");
-  })
-  .catch((error) => {
-    console.error("無法連接到 MySQL:", error);
-  });
 app.listen(1004, () => {
   console.log("後端伺服器正在聆聽 port 1004...");
 });
