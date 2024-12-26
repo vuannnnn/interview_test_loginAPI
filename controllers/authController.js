@@ -31,7 +31,7 @@ const register = async (req, res) => {
   const emailExist = await User.findOne({ where: { email: req.body.email } });
   if (emailExist)
     return res
-      .status(200)
+      .status(400)
       .send(sendData("此信箱已被註冊，請使用登入系統...", "1"));
 
   // 創建新用戶
