@@ -17,7 +17,7 @@ const register = async (req, res) => {
   console.log(req.body);
 
   // 規範驗證
-  let { error } = registerValidation(req.body);
+  const { error } = registerValidation(req.body);
   if (error) {
     return res.status(400).send(sendData(error.details[0].message, "1"));
   }
@@ -37,10 +37,10 @@ const register = async (req, res) => {
   // 創建新用戶
   const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
-  let newUser = new User({ email, password: hashedPassword });
+  const newUser = new User({ email, password: hashedPassword });
 
   try {
-    let saveUser = await newUser.save();
+    const saveUser = await newUser.save();
     return res.send(sendData("註冊成功！", "0", saveUser));
   } catch (e) {
     console.log(e.message);
@@ -51,7 +51,7 @@ const register = async (req, res) => {
 // 登入
 const login = async (req, res) => {
   // 規範驗證
-  let { error } = loginValidation(req.body);
+  const { error } = loginValidation(req.body);
   if (error) {
     return res.status(400).send(sendData(error.details[0].message, "1"));
   }
